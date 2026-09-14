@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavani Vehicle — Quality Used Vehicles in Ahmedabad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20242C;
+    --ink-soft:#4C5A66;
+    --paper:#F7F5F1;
+    --paper-dim:#ECE9E2;
+    --panel:#FFFFFF;
+    --signal:#E8A93A;
+    --signal-dark:#C98F22;
+    --clay:#B5502E;
+    --line:#D8D3C8;
+    --radius-tag: 4px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.12;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .odo{font-family:'IBM Plex Mono', monospace;font-variant-numeric:tabular-nums;}
+
+  /* Lane divider — a road marking instead of a plain rule */
+  .lane{
+    height:14px;
+    background-image:repeating-linear-gradient(90deg, var(--line) 0 28px, transparent 28px 52px);
+    background-position:center;
+    background-repeat:repeat-x;
+    background-size:auto 2px;
+    background-position-y:center;
+    opacity:.9;
+  }
+
+  /* ===== Header ===== */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,245,241,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
+  .logo{font-family:'Space Grotesk';font-weight:700;font-size:1.25rem;letter-spacing:-0.02em;}
+  .logo span{color:var(--signal-dark);}
+  .nav-links{display:flex;gap:32px;font-size:.95rem;font-weight:500;}
+  .nav-links a{position:relative;padding:6px 0;}
+  .nav-links a:hover{color:var(--clay);}
+  .nav-cta{display:flex;align-items:center;gap:12px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 22px;
+    font-weight:600;font-size:.92rem;
+    border-radius:var(--radius-tag);
+    border:1.5px solid var(--ink);
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-solid{background:var(--ink);color:var(--paper);}
+  .btn-solid:hover{background:var(--clay);border-color:var(--clay);}
+  .btn-signal{background:var(--signal);border-color:var(--signal);color:var(--ink);}
+  .btn-signal:hover{background:var(--signal-dark);border-color:var(--signal-dark);}
+  .btn-outline{background:transparent;color:var(--ink);}
+  .btn-outline:hover{border-color:var(--clay);color:var(--clay);}
+  .btn-sm{padding:8px 16px;font-size:.85rem;}
+  .menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+  .menu-toggle span{width:24px;height:2px;background:var(--ink);}
+
+  /* ===== Hero ===== */
+  .hero{padding:64px 0 40px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+  .eyebrow-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono';font-size:.78rem;font-weight:500;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    padding:6px 12px;border-radius:999px;
+    margin-bottom:22px;background:var(--panel);
+  }
+  .eyebrow-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);}
+  .hero h1{font-size:clamp(2.1rem,4.2vw,3.35rem);max-width:12ch;}
+  .hero p.lead{margin-top:20px;font-size:1.08rem;color:var(--ink-soft);max-width:46ch;}
+  .hero-actions{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+  .hero-art{position:relative;}
+  .blueprint{
+    background:var(--ink);
+    border-radius:6px;
+    aspect-ratio:1/0.82;
+    position:relative;
+    overflow:hidden;
+    background-image:
+      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .blueprint svg{position:absolute;inset:0;width:100%;height:100%;}
+  .blueprint .stat-chip{
+    position:absolute;bottom:18px;left:18px;
+    background:rgba(247,245,241,.95);
+    color:var(--ink);
+    padding:12px 16px;border-radius:4px;
+    font-family:'IBM Plex Mono';
+  }
+  .blueprint .stat-chip b{display:block;font-size:1.4rem;font-family:'Space Grotesk';font-weight:700;}
+  .blueprint .stat-chip span{font-size:.72rem;color:var(--ink-soft);}
+
+  /* Search console */
+  .search-console{
+    margin-top:44px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px;
+  }
+  .search-console .sc-label{font-family:'IBM Plex Mono';font-size:.78rem;color:var(--ink-soft);margin-bottom:14px;display:block;}
+  .sc-fields{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:12px;}
+  .sc-fields select{
+    width:100%;padding:12px 10px;border:1px solid var(--line);border-radius:4px;
+    background:var(--paper);font-family:inherit;font-size:.88rem;color:var(--ink);
+  }
+  .sc-fields .btn{padding:12px 20px;}
+
+  /* ===== Section headers ===== */
+  section{padding:76px 0;}
+  .sec-head{max-width:640px;margin-bottom:44px;}
+  .sec-head h2{font-size:clamp(1.6rem,2.6vw,2.1rem);}
+  .sec-head p{color:var(--ink-soft);margin-top:10px;font-size:1rem;}
+
+  /* ===== Vehicle cards ===== */
+  .vehicle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .v-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--panel);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .v-photo{
+    aspect-ratio:16/10;
+    background:linear-gradient(155deg,#EDEAE2,#DDD8CC);
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .v-photo svg{width:64%;height:auto;color:var(--ink-soft);}
+  .v-photo .count{
+    position:absolute;top:10px;right:10px;
+    background:rgba(32,36,44,.78);color:#fff;
+    font-family:'IBM Plex Mono';font-size:.68rem;
+    padding:4px 8px;border-radius:3px;
+  }
+  .v-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:12px;flex:1;}
+  .v-title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .v-title{font-family:'Space Grotesk';font-weight:600;font-size:1.05rem;}
+  .v-year{font-family:'IBM Plex Mono';font-size:.78rem;color:var(--ink-soft);}
+  .v-price{font-family:'Space Grotesk';font-weight:700;font-size:1.15rem;color:var(--clay);white-space:nowrap;}
+  .v-cluster{
+    display:flex;
+    border-top:1px dashed var(--line);
+    border-bottom:1px dashed var(--line);
+    padding:10px 0;
+  }
+  .v-cluster div{
+    flex:1;text-align:center;
+    font-family:'IBM Plex Mono';font-size:.74rem;
+    color:var(--ink-soft);
+    border-right:1px solid var(--line);
+  }
+  .v-cluster div:last-child{border-right:none;}
+  .v-cluster div b{display:block;color:var(--ink);font-size:.86rem;font-weight:600;margin-top:2px;}
+  .v-loc{font-size:.82rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+  .v-actions{display:flex;gap:10px;margin-top:auto;}
+  .v-actions .btn{flex:1;justify-content:center;padding:10px 14px;font-size:.82rem;}
+
+  /* ===== Category tags ===== */
+  .cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;}
+  .cat-tag{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:26px 16px 20px;
+    text-align:center;
+    position:relative;
+    clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);
+  }
+  .cat-tag svg{width:38px;height:38px;margin:0 auto 14px;color:var(--ink);}
+  .cat-tag div{font-weight:600;font-size:.92rem;}
+  .cat-tag:hover{border-color:var(--signal-dark);}
+  .cat-tag:hover svg{color:var(--clay);}
+
+  /* ===== Why choose ===== */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px 28px;}
+  .why-item{display:flex;gap:16px;}
+  .why-badge{
+    width:44px;height:44px;flex:none;border-radius:50%;
+    border:1.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono';font-weight:600;font-size:.82rem;
+  }
+  .why-item h3{font-size:1rem;margin-bottom:4px;}
+  .why-item p{color:var(--ink-soft);font-size:.92rem;}
+
+  /* ===== Split panels: Sell / Finance ===== */
+  .panel-band{background:var(--ink);color:var(--paper);}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .split-cell{padding:64px 48px;}
+  .split-cell + .split-cell{border-left:1px solid rgba(255,255,255,.14);}
+  .panel-band h2{color:var(--paper);font-size:1.7rem;max-width:16ch;}
+  .panel-band p{color:#C7CBD1;margin-top:14px;max-width:42ch;}
+  .panel-band .btn-signal{margin-top:26px;}
+  .field-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
+  .field-tags span{
+    font-family:'IBM Plex Mono';font-size:.72rem;
+    border:1px solid rgba(255,255,255,.25);
+    padding:6px 10px;border-radius:3px;color:#C7CBD1;
+  }
+
+  /* ===== Sell form ===== */
+  .sell-form{
+    margin-top:48px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:36px;
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  }
+  .sell-form .full{grid-column:1/-1;}
+  .field label{display:block;font-size:.8rem;font-weight:600;margin-bottom:6px;color:var(--ink-soft);}
+  .field input, .field select{
+    width:100%;padding:12px 12px;border:1px solid var(--line);border-radius:4px;
+    font-family:inherit;font-size:.92rem;background:var(--paper);
+  }
+  .upload-box{
+    border:1.5px dashed var(--line);border-radius:4px;
+    padding:22px;text-align:center;font-size:.85rem;color:var(--ink-soft);
+    font-family:'IBM Plex Mono';
+  }
+
+  /* ===== About ===== */
+  .about-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;}
+  .about-grid p{color:var(--ink-soft);margin-bottom:16px;}
+  .odo-row{display:flex;gap:34px;margin-top:30px;flex-wrap:wrap;}
+  .odo-cell b{display:block;font-family:'Space Grotesk';font-size:1.8rem;font-weight:700;}
+  .odo-cell span{font-size:.78rem;color:var(--ink-soft);}
+
+  /* ===== Reviews ===== */
+  .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .review-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:26px;
+  }
+  .stars{display:flex;gap:3px;margin-bottom:14px;}
+  .stars svg{width:16px;height:16px;color:var(--signal-dark);}
+  .review-card p{font-size:.95rem;color:var(--ink);}
+  .review-name{margin-top:16px;font-family:'IBM Plex Mono';font-size:.78rem;color:var(--ink-soft);}
+
+  /* ===== Showroom ===== */
+  .showroom-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .showroom-info{padding:40px;background:var(--panel);}
+  .info-row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .info-row:last-child{border-bottom:none;}
+  .info-row svg{width:20px;height:20px;flex:none;color:var(--clay);margin-top:2px;}
+  .info-row div b{display:block;font-size:.9rem;}
+  .info-row div span{font-size:.86rem;color:var(--ink-soft);}
+  .map-embed{min-height:340px;background:var(--paper-dim);}
+  .map-embed iframe{width:100%;height:100%;min-height:340px;border:0;}
+
+  /* ===== Final CTA ===== */
+  .final-cta{
+    background:var(--signal);
+    padding:64px 0;
+    text-align:center;
+  }
+  .final-cta h2{max-width:20ch;margin:0 auto;}
+  .final-cta .btn-outline{border-color:var(--ink);}
+  .final-actions{display:flex;justify-content:center;gap:14px;margin-top:26px;flex-wrap:wrap;}
+
+  /* ===== Footer ===== */
+  footer{background:var(--ink);color:#C7CBD1;padding:56px 0 24px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;}
+  .foot-logo{font-family:'Space Grotesk';font-weight:700;font-size:1.2rem;color:var(--paper);}
+  .foot-tag{margin-top:10px;font-size:.88rem;max-width:26ch;}
+  footer h4{font-size:.8rem;text-transform:none;color:var(--paper);margin-bottom:14px;font-family:'IBM Plex Mono';}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:.88rem;}
+  footer ul a:hover{color:var(--signal);}
+  .foot-bottom{
+    margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);
+    display:flex;justify-content:space-between;font-size:.8rem;color:#8A8F98;flex-wrap:wrap;gap:10px;
+  }
+
+  /* Floating actions */
+  .float-actions{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:10px;z-index:60;}
+  .float-btn{
+    width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.22);
+    border:none;cursor:pointer;
+  }
+  .float-btn.wa{background:#25D366;color:#fff;}
+  .float-btn.call{background:var(--ink);color:#fff;}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{order:-1;}
+    .sc-fields{grid-template-columns:1fr 1fr;}
+    .sc-fields .btn{grid-column:1/-1;}
+    .vehicle-grid{grid-template-columns:repeat(2,1fr);}
+    .cat-grid{grid-template-columns:repeat(3,1fr);}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .split{grid-template-columns:1fr;}
+    .split-cell + .split-cell{border-left:none;border-top:1px solid rgba(255,255,255,.14);}
+    .about-grid{grid-template-columns:1fr;}
+    .review-grid{grid-template-columns:1fr;}
+    .showroom-grid{grid-template-columns:1fr;}
+    .sell-form{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+    .menu-toggle{display:flex;}
+  }
+  @media(max-width:600px){
+    .vehicle-grid{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .why-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+    .nav-cta .btn-outline{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">BHAVANI <span>VEHICLE</span></div>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#featured">Buy Vehicles</a>
+      <a href="#sell">Sell Your Vehicle</a>
+      <a href="#finance">Finance</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+919999999999" class="btn btn-outline btn-sm">Call Now</a>
+      <a href="https://wa.me/919999999999" class="btn btn-signal btn-sm">WhatsApp</a>
+      <button class="menu-toggle" aria-label="Toggle menu" onclick="document.getElementById('mmenu').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div id="mmenu" style="display:none;" class="wrap">
+    <nav style="display:flex;flex-direction:column;gap:2px;padding:12px 0 18px;">
+      <a href="#home" style="padding:10px 0;">Home</a>
+      <a href="#featured" style="padding:10px 0;">Buy Vehicles</a>
+      <a href="#sell" style="padding:10px 0;">Sell Your Vehicle</a>
+      <a href="#finance" style="padding:10px 0;">Finance</a>
+      <a href="#about" style="padding:10px 0;">About Us</a>
+      <a href="#contact" style="padding:10px 0;">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow-tag"><span class="dot"></span>Serving Ahmedabad since day one</span>
+      <h1>Find quality used vehicles in Ahmedabad</h1>
+      <p class="lead">Bhavani Vehicle helps you find reliable pre-owned vehicles at competitive prices, with a simple and transparent buying experience from inspection to paperwork.</p>
+      <div class="hero-actions">
+        <a href="#featured" class="btn btn-solid">View Available Vehicles</a>
+        <a href="#sell" class="btn btn-outline">Sell Your Vehicle</a>
+      </div>
+
+      <div class="search-console">
+        <span class="sc-label">Search vehicle</span>
+        <div class="sc-fields">
+          <select><option>Brand</option><option>Maruti Suzuki</option><option>Hyundai</option><option>Tata</option><option>Honda</option><option>Mahindra</option><option>Toyota</option></select>
+          <select><option>Model</option><option>Swift</option><option>Creta</option><option>Nexon</option><option>City</option><option>XUV300</option></select>
+          <select><option>Budget</option><option>Under ₹5L</option><option>₹5L – ₹10L</option><option>₹10L – ₹15L</option><option>Above ₹15L</option></select>
+          <select><option>Fuel Type</option><option>Petrol</option><option>Diesel</option><option>CNG</option><option>Electric</option></select>
+          <button class="btn btn-signal">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="blueprint">
+        <svg viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 210 L70 160 Q90 140 130 140 L250 140 Q285 140 300 165 L330 210" stroke="#E8A93A" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M40 210 L340 210" stroke="#E8A93A" stroke-width="3"/>
+          <rect x="150" y="150" width="90" height="40" rx="4" stroke="#F7F5F1" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <circle cx="100" cy="215" r="26" stroke="#F7F5F1" stroke-width="3"/>
+          <circle cx="280" cy="215" r="26" stroke="#F7F5F1" stroke-width="3"/>
+          <circle cx="100" cy="215" r="9" fill="#F7F5F1"/>
+          <circle cx="280" cy="215" r="9" fill="#F7F5F1"/>
+          <line x1="20" y1="80" x2="20" y2="240" stroke="#F7F5F1" stroke-width="1" opacity=".4"/>
+          <line x1="360" y1="80" x2="360" y2="240" stroke="#F7F5F1" stroke-width="1" opacity=".4"/>
+        </svg>
+        <div class="stat-chip"><b class="odo">4.8&nbsp;★</b><span>Average buyer rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="lane wrap"></div>
+
+<!-- ===================== FEATURED VEHICLES ===================== -->
+<section id="featured">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Our featured used vehicles</h2>
+      <p>Every listing is checked for condition, documents and history before it goes live.</p>
+    </div>
+
+    <div class="vehicle-grid">
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 42 L18 22 Q24 16 36 16 L84 16 Q94 16 100 26 L112 42" stroke="currentColor" stroke-width="3" fill="none"/><line x1="4" y1="42" x2="116" y2="42" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="44" r="8" stroke="currentColor" stroke-width="3"/><circle cx="90" cy="44" r="8" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">5 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Maruti Suzuki Swift VXI</div><div class="v-year">2021 Model</div></div>
+            <div class="v-price">₹5.6L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>38,000</b></div>
+            <div>Fuel<br><b>Petrol</b></div>
+            <div>Gear<br><b>Manual</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 44 L14 20 Q20 12 34 12 L88 12 Q100 12 106 22 L114 44" stroke="currentColor" stroke-width="3" fill="none"/><line x1="2" y1="44" x2="118" y2="44" stroke="currentColor" stroke-width="3"/><circle cx="28" cy="46" r="9" stroke="currentColor" stroke-width="3"/><circle cx="92" cy="46" r="9" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">6 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Hyundai Creta SX</div><div class="v-year">2022 Model</div></div>
+            <div class="v-price">₹12.4L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>29,500</b></div>
+            <div>Fuel<br><b>Diesel</b></div>
+            <div>Gear<br><b>Automatic</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 40 L20 24 Q25 18 34 18 L86 18 Q94 18 99 26 L110 40" stroke="currentColor" stroke-width="3" fill="none"/><line x1="6" y1="40" x2="114" y2="40" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="42" r="8" stroke="currentColor" stroke-width="3"/><circle cx="88" cy="42" r="8" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">5 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Honda City VX</div><div class="v-year">2020 Model</div></div>
+            <div class="v-price">₹8.9L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>46,200</b></div>
+            <div>Fuel<br><b>Petrol</b></div>
+            <div>Gear<br><b>Manual</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 42 L18 22 Q24 16 36 16 L84 16 Q94 16 100 26 L112 42" stroke="currentColor" stroke-width="3" fill="none"/><line x1="4" y1="42" x2="116" y2="42" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="44" r="8" stroke="currentColor" stroke-width="3"/><circle cx="90" cy="44" r="8" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">6 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Tata Nexon XZ+</div><div class="v-year">2023 Model</div></div>
+            <div class="v-price">₹9.8L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>18,700</b></div>
+            <div>Fuel<br><b>Petrol</b></div>
+            <div>Gear<br><b>Manual</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 44 L14 20 Q20 12 34 12 L88 12 Q100 12 106 22 L114 44" stroke="currentColor" stroke-width="3" fill="none"/><line x1="2" y1="44" x2="118" y2="44" stroke="currentColor" stroke-width="3"/><circle cx="28" cy="46" r="9" stroke="currentColor" stroke-width="3"/><circle cx="92" cy="46" r="9" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">4 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Mahindra XUV300 W8</div><div class="v-year">2021 Model</div></div>
+            <div class="v-price">₹8.2L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>33,400</b></div>
+            <div>Fuel<br><b>Diesel</b></div>
+            <div>Gear<br><b>Manual</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v-card">
+        <div class="v-photo">
+          <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 44 L12 24 Q18 14 32 14 L92 14 Q104 14 110 24 L118 44" stroke="currentColor" stroke-width="3" fill="none"/><line x1="0" y1="44" x2="122" y2="44" stroke="currentColor" stroke-width="3"/><circle cx="26" cy="46" r="9" stroke="currentColor" stroke-width="3"/><circle cx="96" cy="46" r="9" stroke="currentColor" stroke-width="3"/></svg>
+          <span class="count">6 photos</span>
+        </div>
+        <div class="v-body">
+          <div class="v-title-row">
+            <div><div class="v-title">Toyota Innova Crysta</div><div class="v-year">2020 Model</div></div>
+            <div class="v-price">₹17.5L</div>
+          </div>
+          <div class="v-cluster">
+            <div>KM<br><b>52,000</b></div>
+            <div>Fuel<br><b>Diesel</b></div>
+            <div>Gear<br><b>Manual</b></div>
+          </div>
+          <div class="v-loc">📍 Ahmedabad</div>
+          <div class="v-actions">
+            <a href="#" class="btn btn-outline">View Details</a>
+            <a href="https://wa.me/919999999999" class="btn btn-signal">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CATEGORIES ===================== -->
+<section style="background:var(--paper-dim);padding-top:70px;padding-bottom:70px;">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Explore vehicles by category</h2>
+      <p>Browse by body type to narrow down to what fits your daily drive.</p>
+    </div>
+    <div class="cat-grid">
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 32 L11 20 Q14 15 20 15 L30 15 Q36 15 39 21 L42 32"/><line x1="4" y1="32" x2="44" y2="32"/><circle cx="15" cy="34" r="4"/><circle cx="33" cy="34" r="4"/></svg>
+        <div>Hatchbacks</div>
+      </a>
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 30 L9 16 Q13 10 21 10 L29 10 Q36 10 40 17 L44 30"/><line x1="2" y1="30" x2="46" y2="30"/><circle cx="14" cy="32" r="4.5"/><circle cx="34" cy="32" r="4.5"/></svg>
+        <div>SUVs</div>
+      </a>
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 31 L10 19 Q13 14 19 14 L31 15 Q37 16 40 22 L43 31"/><line x1="3" y1="31" x2="45" y2="31"/><circle cx="15" cy="33" r="4"/><circle cx="33" cy="33" r="4"/></svg>
+        <div>Sedans</div>
+      </a>
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 30 L7 17 Q9 12 16 12 L34 12 Q41 12 43 19 L45 30"/><line x1="2" y1="30" x2="47" y2="30"/><circle cx="13" cy="32" r="4.5"/><circle cx="37" cy="32" r="4.5"/></svg>
+        <div>MUVs</div>
+      </a>
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 32 L12 21 Q17 15 25 15 L34 17 Q39 19 42 26 L44 32"/><line x1="2" y1="32" x2="46" y2="32"/><circle cx="13" cy="34" r="4"/><circle cx="35" cy="34" r="4"/></svg>
+        <div>Luxury Cars</div>
+      </a>
+      <a href="#featured" class="cat-tag">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 32 L11 20 Q14 15 20 15 L30 15 Q36 15 39 21 L42 32"/><line x1="4" y1="32" x2="44" y2="32"/><circle cx="15" cy="34" r="4"/><circle cx="33" cy="34" r="4"/><path d="M25 19 L21 26 L25 26 L22 33 L29 24 L25 24 Z" fill="currentColor" stroke="none"/></svg>
+        <div>Electric Vehicles</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHY CHOOSE ===================== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Why choose Bhavani Vehicle?</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-badge">✓</div>
+        <div><h3>Quality used vehicles</h3><p>Carefully selected pre-owned vehicles.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-badge">₹</div>
+        <div><h3>Transparent pricing</h3><p>Clear and competitive vehicle pricing.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-badge">⚙</div>
+        <div><h3>Vehicle inspection</h3><p>Condition and important details are checked.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-badge">➤</div>
+        <div><h3>Easy buying process</h3><p>We make the vehicle-buying process simple.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-badge">%</div>
+        <div><h3>Finance assistance</h3><p>Help with available vehicle financing options.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-badge">📍</div>
+        <div><h3>Trusted local dealer</h3><p>Serving customers looking for used vehicles in Ahmedabad.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SELL + FINANCE ===================== -->
+<div class="panel-band" id="sell">
+  <div class="wrap split">
+    <div class="split-cell">
+      <h2>Want to sell your vehicle?</h2>
+      <p>Get a fair value for your used vehicle with Bhavani Vehicle. Share your vehicle details and our team will contact you.</p>
+      <a href="#sell-form" class="btn btn-signal">Get Your Vehicle Valued</a>
+    </div>
+    <div class="split-cell" id="finance">
+      <h2>Drive your dream vehicle with easy finance</h2>
+      <p>Explore available financing options and get assistance with the documentation and application process.</p>
+      <a href="https://wa.me/919999999999" class="btn btn-signal">Enquire About Finance</a>
+      <div class="field-tags">
+        <span>Loan assistance</span><span>Document support</span><span>Multiple lenders</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <form class="sell-form" id="sell-form" onsubmit="event.preventDefault(); alert('Thanks — our team will contact you shortly.');">
+      <div class="field"><label>Name</label><input type="text" placeholder="Your full name" required></div>
+      <div class="field"><label>Mobile Number</label><input type="tel" placeholder="10-digit mobile number" required></div>
+      <div class="field"><label>Vehicle Brand</label><input type="text" placeholder="e.g. Maruti Suzuki"></div>
+      <div class="field"><label>Vehicle Model</label><input type="text" placeholder="e.g. Swift VXI"></div>
+      <div class="field"><label>Registration Year</label><input type="text" placeholder="e.g. 2021"></div>
+      <div class="field"><label>KM Driven</label><input type="text" placeholder="e.g. 38,000"></div>
+      <div class="field full"><label>Expected Price</label><input type="text" placeholder="e.g. ₹5,50,000"></div>
+      <div class="field full">
+        <label>Upload Photos</label>
+        <div class="upload-box">Drag photos here, or click to browse</div>
+      </div>
+      <div class="full"><button type="submit" class="btn btn-solid">Submit Enquiry</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" style="background:var(--paper-dim);">
+  <div class="wrap about-grid">
+    <div>
+      <div class="blueprint" style="aspect-ratio:1/1;">
+        <svg viewBox="0 0 300 300" fill="none">
+          <circle cx="150" cy="150" r="90" stroke="#F7F5F1" stroke-width="1.5" opacity=".5"/>
+          <circle cx="150" cy="150" r="60" stroke="#E8A93A" stroke-width="2.5"/>
+          <line x1="150" y1="60" x2="150" y2="240" stroke="#F7F5F1" stroke-width="1" opacity=".4"/>
+          <line x1="60" y1="150" x2="240" y2="150" stroke="#F7F5F1" stroke-width="1" opacity=".4"/>
+        </svg>
+      </div>
+    </div>
+    <div>
+      <h2>About Bhavani Vehicle</h2>
+      <p style="margin-top:16px;">Bhavani Vehicle is a used-vehicle dealership serving customers in Ahmedabad. Our goal is to make buying and selling pre-owned vehicles simple, transparent, and convenient.</p>
+      <p>We offer a range of quality used vehicles to suit different budgets and requirements, backed by an inspection process and a team that's easy to reach.</p>
+      <a href="#contact" class="btn btn-outline">Learn More</a>
+      <div class="odo-row">
+        <div class="odo-cell"><b class="odo">500+</b><span>Vehicles sold</span></div>
+        <div class="odo-cell"><b class="odo">4.8★</b><span>Customer rating</span></div>
+        <div class="odo-cell"><b class="odo">12</b><span>Years in Ahmedabad</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS ===================== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What our customers say</h2>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p>"Very good experience. The vehicle was in excellent condition and the buying process was smooth."</p>
+        <div class="review-name">— Happy Customer</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p>"Fair valuation on my old car and the paperwork was handled without any hassle."</p>
+        <div class="review-name">— Happy Customer</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L10 14.9 4.4 18l1.4-6.2L1 7.5l6.4-.6z"/></svg>
+        </div>
+        <p>"Helped me get financing sorted quickly. Would recommend to anyone buying used in Ahmedabad."</p>
+        <div class="review-name">— Happy Customer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SHOWROOM ===================== -->
+<section id="contact" style="background:var(--paper-dim);">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Visit Bhavani Vehicle in Ahmedabad</h2>
+    </div>
+    <div class="showroom-grid">
+      <div class="showroom-info">
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0114 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div><b>Showroom Address</b><span>SG Highway, Ahmedabad, Gujarat</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg>
+          <div><b>Phone Number</b><span>+91 99999 99999</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-8.9 8.4 8.5 8.5 0 01-4-1L3 20l1.1-5.1a8.4 8.4 0 01-1-4A8.4 8.4 0 0111.5 3 8.4 8.4 0 0121 11.5z"/></svg>
+          <div><b>WhatsApp</b><span>+91 99999 99999</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div><b>Opening Hours</b><span>Mon–Sat, 10:00 AM – 8:00 PM</span></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+          <div><b>Email</b><span>info@bhavanivehicle.in</span></div>
+        </div>
+      </div>
+      <div class="map-embed">
+        <iframe src="https://maps.google.com/maps?q=Ahmedabad%2C%20Gujarat&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bhavani Vehicle location map"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<div class="final-cta">
+  <div class="wrap">
+    <h2>Looking for your next used vehicle?</h2>
+    <p style="margin-top:12px;color:#5A4419;">Explore our latest vehicles or contact Bhavani Vehicle today.</p>
+    <div class="final-actions">
+      <a href="#featured" class="btn btn-solid">Browse Vehicles</a>
+      <a href="#contact" class="btn btn-outline">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-logo">BHAVANI VEHICLE</div>
+      <p class="foot-tag">Quality used vehicles in Ahmedabad.</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#featured">Buy Vehicles</a></li>
+        <li><a href="#sell">Sell Your Vehicle</a></li>
+        <li><a href="#finance">Finance</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Vehicle Categories</h4>
+      <ul>
+        <li><a href="#featured">Hatchbacks</a></li>
+        <li><a href="#featured">SUVs</a></li>
+        <li><a href="#featured">Sedans</a></li>
+        <li><a href="#featured">MUVs</a></li>
+        <li><a href="#featured">Luxury Cars</a></li>
+        <li><a href="#featured">Electric Vehicles</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+919999999999">+91 99999 99999</a></li>
+        <li><a href="https://wa.me/919999999999">WhatsApp</a></li>
+        <li><a href="mailto:info@bhavanivehicle.in">info@bhavanivehicle.in</a></li>
+        <li>Ahmedabad, Gujarat</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Bhavani Vehicle. All rights reserved.</span>
+    <span><a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a></span>
+  </div>
+</footer>
+
+<div class="float-actions">
+  <a href="https://wa.me/919999999999" class="float-btn wa" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20.5 3.5A11 11 0 003.6 17.4L2 22l4.7-1.6a11 11 0 0013.8-16.9zM12 20a8 8 0 01-4.1-1.1l-.3-.2-3 1 1-2.9-.2-.3A8 8 0 1112 20zm4.6-6c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3z"/></svg>
+  </a>
+  <a href="tel:+919999999999" class="float-btn call" aria-label="Call">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.2z"/></svg>
+  </a>
+</div>
+
+</body>
+</html>
